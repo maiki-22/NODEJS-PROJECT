@@ -1,0 +1,99 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Editar Libro: <%= customer.titulo %></h1>
+    <div class="btn-toolbar mb-2 mb-md-0"></div>
+</div>
+
+<div class="col py-3">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                    <li class="breadcrumb-item active"><%= customer.titulo %></li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col text-end fw-lighter">
+            <b>ISBN: <%= customer.ISBN %></b>
+        </div>
+    </div>
+</div>
+
+<form action="/edit/<%= customer._id %>?_method=PUT" method="POST">
+    <div class="row form-group mb-4">
+        <!-- Campo ISBN -->
+        <div class="col">
+            <label for="ISBN">ISBN:</label>
+            <input type="number" value="<%= customer.ISBN %>" class="form-control" id="ISBN" name="ISBN" placeholder="Ingrese ISBN del Libro" required min="1000000000000" max="9999999999999" oninput="if(this.value.length > 13) this.value = this.value.slice(0, 13);">
+        </div>
+
+        <!-- Campo Titulo -->
+        <div class="col">
+            <label for="titulo">Título:</label>
+            <input type="text" class="form-control" id="titulo" name="titulo" value="<%= customer.titulo %>" placeholder="Ingrese el Título del Libro" required>
+        </div>
+    </div>
+
+    <div class="row form-group mb-4">
+        <!-- Campo Autor -->
+        <div class="col">
+            <label for="autor">Autor:</label>
+            <input type="text" class="form-control" id="autor" name="autor" value="<%= customer.autor %>" placeholder="Ingrese el Autor del Libro" required>
+        </div>
+
+        <!-- Campo Fecha -->
+        <div class="col">
+            <label for="Ano_de_publicacion" class="form-label">Año de Publicación:</label>
+            <input type="date" class="form-control" id="Ano_de_publicacion" name="Ano_de_publicacion" value="<%= customer.Ano_de_publicacion.toISOString().split('T')[0] %>" required>
+        </div>
+    </div>
+
+    <div class="row form-group mb-4">
+        <!-- Campo Editorial -->
+        <div class="col">
+            <label for="editorial">Editorial:</label>
+            <input type="text" class="form-control" id="editorial" name="editorial" value="<%= customer.editorial %>" placeholder="Ingrese la Editorial del Libro" required>
+        </div>
+
+        <!-- Campo Precio -->
+        <div class="col">
+            <label for="precio" class="form-label">Ingrese el precio:</label>
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" id="precio" name="precio" value="<%= customer.precio %>" placeholder="0.00" min="0" step="0.01" required>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boton de Enviar -->
+    <div class="row form-group mb-4">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+        </div>
+    </div>
+</form>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Estas a punto de eliminar un Libro</div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Vas a eliminar el siguiente libro: <b class="fw-bold"><%= customer.titulo %></b><br/>
+            Estas Seguro?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <form action="/edit/<%= customer._id %>?_method=DELETE" method="POST" class="position-relative">
+            <button type="submit" class="btn btn-primary">Si, Eliminar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
